@@ -1,0 +1,12 @@
+syntax = "proto3";
+package frappe_contracts;
+
+
+message PingMessage {
+    string greeting = 1;
+}
+
+service Ping {
+    rpc SayHello (PingMessage) returns (PingMessage) {
+    }
+}
