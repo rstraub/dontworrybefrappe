@@ -1,4 +1,4 @@
-package frappe_contracts
+package frappe_api
 
 import (
 	"context"

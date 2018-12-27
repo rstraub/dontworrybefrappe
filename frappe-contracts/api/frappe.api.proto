@@ -1,5 +1,5 @@
 syntax = "proto3";
-package frappe_contracts;
+package frappe_api;
 
 
 message PingMessage {

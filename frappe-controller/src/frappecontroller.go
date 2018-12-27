@@ -1,8 +1,8 @@
 package main
 
 import (
+	"../../frappe-contracts/api"
 	"fmt"
-	"github.com/rstraub/dontworrybefrappe/frappe_contracts"
 	"google.golang.org/grpc"
 	"log"
 	"net"
@@ -16,11 +16,11 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	// create a server instance
-	s := frappe_contracts.Server{}
+	s := frappe_api.Server{}
 	// create a gRPC server object
 	grpcServer := grpc.NewServer()
 	// attach the Ping service to the server
-	frappe_contracts.RegisterPingServer(grpcServer, &s)
+	frappe_api.RegisterPingServer(grpcServer, &s)
 	// start the server
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %s", err)
