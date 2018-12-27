@@ -1,8 +1,8 @@
 package main
 
 import (
-	"../../frappe-contracts/api"
 	"fmt"
+	"github.com/rstraub/dontworrybefrappe/frappe-contracts/api"
 	"google.golang.org/grpc"
 	"log"
 	"net"
