@@ -1,12 +1,24 @@
 syntax = "proto3";
 package frappe_api;
 
-
-message PingMessage {
-    string greeting = 1;
+message CoffeeOrder {
+    CoffeeType type = 1;
 }
 
-service Ping {
-    rpc SayHello (PingMessage) returns (PingMessage) {
+message Coffee {
+    CoffeeType type = 1;
+    bool sugar = 2;
+    int32 strength = 3;
+}
+
+enum CoffeeType {
+    BLACK = 0;
+    CAPPUCCINO = 1;
+    ESPRESSO = 2;
+}
+
+service CoffeeService {
+    rpc Brew (CoffeeOrder) returns (Coffee) {
     }
 }
+
