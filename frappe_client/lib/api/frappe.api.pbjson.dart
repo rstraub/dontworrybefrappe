@@ -16,7 +16,7 @@ const CoffeeType$json = const {
 const CoffeeOrder$json = const {
   '1': 'CoffeeOrder',
   '2': const [
-    const {'1': 'type', '3': 1, '4': 1, '5': 14, '6': '.frappe_api.CoffeeType', '10': 'type'},
+    const {'1': 'coffee', '3': 1, '4': 1, '5': 11, '6': '.frappe_api.Coffee', '10': 'coffee'},
   ],
 };
 

@@ -2,7 +2,7 @@ syntax = "proto3";
 package frappe_api;
 
 message CoffeeOrder {
-    CoffeeType type = 1;
+    Coffee coffee = 1;
 }
 
 message Coffee {

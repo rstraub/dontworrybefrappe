@@ -15,7 +15,7 @@ export 'frappe.api.pbenum.dart';
 
 class CoffeeOrder extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CoffeeOrder', package: const $pb.PackageName('frappe_api'))
-    ..e<CoffeeType>(1, 'type', $pb.PbFieldType.OE, CoffeeType.BLACK, CoffeeType.valueOf, CoffeeType.values)
+    ..a<Coffee>(1, 'coffee', $pb.PbFieldType.OM, Coffee.getDefault, Coffee.create)
     ..hasRequiredFields = false
   ;
 
@@ -33,10 +33,10 @@ class CoffeeOrder extends $pb.GeneratedMessage {
     if (v is! CoffeeOrder) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  CoffeeType get type => $_getN(0);
-  set type(CoffeeType v) { setField(1, v); }
-  bool hasType() => $_has(0);
-  void clearType() => clearField(1);
+  Coffee get coffee => $_getN(0);
+  set coffee(Coffee v) { setField(1, v); }
+  bool hasCoffee() => $_has(0);
+  void clearCoffee() => clearField(1);
 }
 
 class Coffee extends $pb.GeneratedMessage {

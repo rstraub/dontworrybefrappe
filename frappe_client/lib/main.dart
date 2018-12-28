@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'FrappeApp',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.blueGrey,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Don\'t worry, be Frappe!'),
     );
   }
 }
@@ -46,24 +46,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  double _strength = 0;
   String res;
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  bool _sugar;
+  CoffeeType _type;
 
-  @override 
+
+  @override
   void initState() {
     res = "niets gedaan";
+    _sugar = false;
+    _type = CoffeeType.BLACK;
   }
-  
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -97,35 +92,93 @@ class _MyHomePageState extends State<MyHomePage> {
           // axis because Columns are vertical (the cross axis would be
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            res.isNotEmpty ? Text("Server says: $res") : Container(),
+          children:
+          <Widget>[
+            Slider(
+                value: _strength,
+                onChanged: (double value) {
+                  setState(() {
+                    _strength = value;
+                  });
+                },
+                label: "Strength",
+                min: 0,
+                max: 5
+            ),
+            SwitchListTile(
+                value: _sugar,
+                onChanged: (bool value) {
+                  setState(() {
+                    _sugar = value;
+                  });
+                },
+                title: Text(
+                    "Sugar?"
+                )
+            ),
+
+            ButtonBar(
+                alignment: MainAxisAlignment.center,
+                children:
+                <Widget>[
+                  FlatButton(
+                      onPressed: () => _type = CoffeeType.ESPRESSO,
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
+                      child: Text(
+                        "Espresso",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                  FlatButton(
+                      onPressed: () => _type = CoffeeType.CAPPUCCINO,
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
+                      child: Text(
+                        "Cappuccino",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                  FlatButton(
+                      onPressed: () => _type = CoffeeType.BLACK,
+                      color: Theme
+                          .of(context)
+                          .primaryColor,
+                      child: Text(
+                        "Black",
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ]
+            ),
             FlatButton(
                 onPressed: () async => _brew(),
-                color: Theme.of(context).primaryColor,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
                 child: Text(
-                  "Let's say hi!",
+                  "Let's order some coffee!",
                   style: TextStyle(color: Colors.white),
                 )),
+            res.isNotEmpty ? Text("Server says: $res") : Container(),
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
   Future<void> _brew() async {
-    CoffeeOrder message = CoffeeOrder();
-    message.type = CoffeeType.BLACK;
-    var pingClient = CoffeeServiceClient(GrpcClientSingleton().client);
-    var hello = await pingClient.brew(message);
+    CoffeeOrder coffeeOrder = CoffeeOrder();
+    Coffee coffee = Coffee();
+    coffee.type = _type;
+    coffee.strength = _strength.round();
+    coffee.sugar = _sugar;
+    coffeeOrder.coffee = coffee;
+    var coffeeClient = CoffeeServiceClient(GrpcClientSingleton().client);
+    var orderedCoffee = await coffeeClient.brew(coffeeOrder);
     setState(() {
-      res = " Strength: " + hello.strength.toString() +
-            "\n Type: "+ hello.type.toString() +
-            "\n Sugar?"    + hello.sugar.toString();
+      res = "\n Strength: " + orderedCoffee.strength.toString() +
+          "\n Type: " + orderedCoffee.type.toString() +
+          "\n Sugar?" + orderedCoffee.sugar.toString();
     });
   }
 }
