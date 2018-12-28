@@ -1,6 +1,6 @@
 ///
 //  Generated code. Do not modify.
-//  source: api/frappe.api.proto
+//  source: frappe.api.proto
 ///
 // ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
 
@@ -11,41 +11,39 @@ import 'package:grpc/grpc.dart';
 import 'frappe.api.pb.dart';
 export 'frappe.api.pb.dart';
 
-class PingClient extends Client {
-  static final _$sayHello = new ClientMethod<PingMessage, PingMessage>(
-      '/frappe_api.Ping/SayHello',
-      (PingMessage value) => value.writeToBuffer(),
-      (List<int> value) => new PingMessage.fromBuffer(value));
+class CoffeeServiceClient extends Client {
+  static final _$brew = new ClientMethod<CoffeeOrder, Coffee>(
+      '/frappe_api.CoffeeService/Brew',
+      (CoffeeOrder value) => value.writeToBuffer(),
+      (List<int> value) => new Coffee.fromBuffer(value));
 
-  PingClient(ClientChannel channel, {CallOptions options})
+  CoffeeServiceClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<PingMessage> sayHello(PingMessage request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$sayHello, new $async.Stream.fromIterable([request]),
+  ResponseFuture<Coffee> brew(CoffeeOrder request, {CallOptions options}) {
+    final call = $createCall(_$brew, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
 }
 
-abstract class PingServiceBase extends Service {
-  String get $name => 'frappe_api.Ping';
+abstract class CoffeeServiceBase extends Service {
+  String get $name => 'frappe_api.CoffeeService';
 
-  PingServiceBase() {
-    $addMethod(new ServiceMethod<PingMessage, PingMessage>(
-        'SayHello',
-        sayHello_Pre,
+  CoffeeServiceBase() {
+    $addMethod(new ServiceMethod<CoffeeOrder, Coffee>(
+        'Brew',
+        brew_Pre,
         false,
         false,
-        (List<int> value) => new PingMessage.fromBuffer(value),
-        (PingMessage value) => value.writeToBuffer()));
+        (List<int> value) => new CoffeeOrder.fromBuffer(value),
+        (Coffee value) => value.writeToBuffer()));
   }
 
-  $async.Future<PingMessage> sayHello_Pre(
+  $async.Future<Coffee> brew_Pre(
       ServiceCall call, $async.Future request) async {
-    return sayHello(call, await request);
+    return brew(call, await request);
   }
 
-  $async.Future<PingMessage> sayHello(ServiceCall call, PingMessage request);
+  $async.Future<Coffee> brew(ServiceCall call, CoffeeOrder request);
 }

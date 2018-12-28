@@ -100,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             res.isNotEmpty ? Text("Server says: $res") : Container(),
             FlatButton(
-                onPressed: () async => _sayHello(),
+                onPressed: () async => _brew(),
                 color: Theme.of(context).primaryColor,
                 child: Text(
                   "Let's say hi!",
@@ -117,13 +117,15 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  Future<void> _sayHello() async {
-    PingMessage message = PingMessage();
-    message.greeting = "hi from client";http://145.128.200.34:
-    var pingClient = PingClient(GrpcClientSingleton().client);
-    var hello = await pingClient.sayHello(message);
+  Future<void> _brew() async {
+    CoffeeOrder message = CoffeeOrder();
+    message.type = CoffeeType.BLACK;
+    var pingClient = CoffeeServiceClient(GrpcClientSingleton().client);
+    var hello = await pingClient.brew(message);
     setState(() {
-      res = hello.greeting;
+      res = " Strength: " + hello.strength.toString() +
+            "\n Type: "+ hello.type.toString() +
+            "\n Sugar?"    + hello.sugar.toString();
     });
   }
 }
