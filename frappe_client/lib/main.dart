@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frappe_client/api/frappe.api.pbgrpc.dart';
+import 'package:frappe_client/grpc_commons.dart';
 
 void main() => runApp(MyApp());
 
@@ -45,7 +47,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-
+  String res;
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -57,6 +59,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  @override 
+  void initState() {
+    res = "niets gedaan";
+  }
+  
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -91,13 +98,14 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
+            res.isNotEmpty ? Text("Server says: $res") : Container(),
+            FlatButton(
+                onPressed: () async => _sayHello(),
+                color: Theme.of(context).primaryColor,
+                child: Text(
+                  "Let's say hi!",
+                  style: TextStyle(color: Colors.white),
+                )),
           ],
         ),
       ),
@@ -107,5 +115,15 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  Future<void> _sayHello() async {
+    PingMessage message = PingMessage();
+    message.greeting = "hi from client";http://145.128.200.34:
+    var pingClient = PingClient(GrpcClientSingleton().client);
+    var hello = await pingClient.sayHello(message);
+    setState(() {
+      res = hello.greeting;
+    });
   }
 }
